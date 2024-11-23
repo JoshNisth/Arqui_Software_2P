@@ -78,18 +78,4 @@ function actualizarStock(id, stock) {
     }
 }
 
-// Función para actualizar el stock en el microservicio de Ventas
-function actualizarStockEnVentas(id, stock) {
-    console.log("Se supone que actualiza ventas descomentar cuando ya este ventas api")
-    /*
-    fetch('http://localhost/Arqui_Software_2P/ventas/api/actualizar_ventas.php', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ id: id, stock: stock })
-    })
-    .then(response => response.json())
-    .then(data => {
-        alert(data.message);
-    })
-    .catch(error => console.error('Error en Ventas:', error));*/
-}
+
