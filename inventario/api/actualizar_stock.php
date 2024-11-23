@@ -11,12 +11,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'PUT') {
     $stmt = $conn->prepare("UPDATE productos SET stock=? WHERE id=?");
     $stmt->execute([$stock, $id]);
 
-    // Llamar a la API de Ventas para actualizar el stock en la base de datos de Ventas
-    $productoData = json_encode([
-        'producto_id' => $id,
-        'cantidad' => $stock
-    ]);
-
 
     echo json_encode(["message" => "Producto actualizado en Inventario"]);
 }
