@@ -26,12 +26,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 if ($_SERVER['REQUEST_METHOD'] == 'PUT') {
     $data = json_decode(file_get_contents("php://input"));
     $id = $data->id;
-    $nombre = $data->nombre;
-    $precio = $data->precio;
     $stock = $data->stock;
 
-    $stmt = $conn->prepare("UPDATE productos SET nombre=?, precio=?, stock=? WHERE id=?");
-    $stmt->execute([$nombre, $precio, $stock, $id]);
+    $stmt = $conn->prepare("UPDATE productos SET stock=? WHERE id=?");
+    $stmt->execute([$stock, $id]);
 
     echo json_encode(["message" => "Producto actualizado exitosamente"]);
 }
