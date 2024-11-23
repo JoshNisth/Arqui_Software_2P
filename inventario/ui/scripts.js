@@ -68,12 +68,6 @@ function actualizarStock(id, stock) {
             body: JSON.stringify({ id, stock: nuevoStock })
         })
         .then(response => response.json())
-        .then(data => {
-            alert(data.message);
-
-            // 2. Si la actualización en Inventario es exitosa, actualizar en Ventas
-            actualizarStockEnVentas(id, nuevoStock);
-        })
         .catch(error => console.error('Error en Inventario:', error));
     }
 }

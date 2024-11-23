@@ -20,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     // Actualización del stock en db_inventario a través de la API
     $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, 'http://localhost/Arqui_Software_2P/inventario/api/productos.php');
+    curl_setopt($ch, CURLOPT_URL, 'http://localhost/Arqui_Software_2P/inventario/api/actualizar_stock.php');
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PUT');
     curl_setopt($ch, CURLOPT_POSTFIELDS, $productoData);

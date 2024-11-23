@@ -19,23 +19,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 if ($_SERVER['REQUEST_METHOD'] == 'PUT') {
     $data = json_decode(file_get_contents("php://input"));
     $producto_id = $data->producto_id;
-    $cantidad = $data->cantidad;
+    $stock = $data->cantidad;  // Esto representa el nuevo stock del producto
 
-    // Verificar si el producto ya existe en la tabla de ventas
-    $stmt = $conn->prepare("SELECT * FROM ventas WHERE producto_id = ?");
+    // Verificar si el producto ya existe en la tabla de productos en Ventas
+    $stmt = $conn->prepare("SELECT * FROM productos WHERE id = ?");
     $stmt->execute([$producto_id]);
-    $venta = $stmt->fetch(PDO::FETCH_ASSOC);
+    $producto = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    if ($venta) {
-        // Si el producto ya está registrado en ventas, actualizamos la cantidad
-        $stmtUpdate = $conn->prepare("UPDATE ventas SET cantidad = ? WHERE producto_id = ?");
-        $stmtUpdate->execute([$cantidad, $producto_id]);
-        echo json_encode(["message" => "Stock de ventas actualizado"]);
+    if ($producto) {
+        // Si el producto existe en la tabla de productos, actualizamos el stock
+        $stmtUpdate = $conn->prepare("UPDATE productos SET stock = ? WHERE id = ?");
+        $stmtUpdate->execute([$stock, $producto_id]);
+        echo json_encode(["message" => "Stock de producto en Ventas actualizado"]);
     } else {
-        // Si no existe, se puede insertar una nueva entrada (opcional)
-        $stmtInsert = $conn->prepare("INSERT INTO ventas (producto_id, cantidad) VALUES (?, ?)");
-        $stmtInsert->execute([$producto_id, $cantidad]);
-        echo json_encode(["message" => "Producto agregado a ventas"]);
+        // Si no existe, se puede insertar una nueva entrada (esto sería un error si es solo actualización)
+        echo json_encode(["message" => "Producto no encontrado en Ventas"]);
     }
 }
 ?>
