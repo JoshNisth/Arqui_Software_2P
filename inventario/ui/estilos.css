@@ -72,7 +72,7 @@ button#btnAgregarProducto:hover {
     font-size: 1rem;
 }
 
-button.btnGuardar {
+button {
     background-color: #007bff;
     color: #fff;
     border: none;
@@ -84,7 +84,7 @@ button.btnGuardar {
     transition: background-color 0.3s ease;
 }
 
-button.btnGuardar:hover {
+button:hover {
     background-color: #0056b3;
 }
 
