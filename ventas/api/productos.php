@@ -4,13 +4,14 @@ include("../db/conexion.php");
 // Crear un producto en Ventas (POST)
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $data = json_decode(file_get_contents("php://input"));
+    $id = $data->id;
     $nombre = $data->nombre;
     $precio = $data->precio;
     $stock = $data->stock;
 
     // Insertar el nuevo producto en la base de datos de Ventas
-    $stmt = $conn->prepare("INSERT INTO productos (nombre, precio, stock) VALUES (?, ?, ?)");
-    $stmt->execute([$nombre, $precio, $stock]);
+    $stmt = $conn->prepare("INSERT INTO productos (id, nombre, precio, stock) VALUES (?, ?, ?, ?)");
+    $stmt->execute([$id, $nombre, $precio, $stock]);
 
     echo json_encode(["message" => "Producto agregado exitosamente en Ventas"]);
 }
