@@ -1,4 +1,7 @@
 <?php
+header("Access-Control-Allow-Origin: *"); // Permitir solicitudes de cualquier origen
+header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS"); // Métodos permitidos
+header("Access-Control-Allow-Headers: Content-Type, Authorization");
 include("../db/conexion.php");
 
 // Actualizar un producto (PUT)
