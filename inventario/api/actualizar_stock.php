@@ -8,7 +8,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'PUT') {
     $stock = $data->stock;
 
     // Actualizar el stock del producto en la base de datos de Inventario
-    $stmt = $conn->prepare("UPDATE productos SET stock=? WHERE id=?");
+    $stmt = $conn->prepare("UPDATE productos SET stock = stock - ? WHERE id = ?");
     $stmt->execute([$stock, $id]);
 
 

@@ -19,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Llamar a la API de Inventario para actualizar el stock
     $productoData = json_encode([
         'id' => $producto_id,
-        'stock' => -$cantidad  // El stock en Inventario se reduce debido a la venta
+        'stock' => $cantidad  // El stock en Inventario se reduce debido a la venta
     ]);
 
     // Realización de la llamada cURL al microservicio de Inventario

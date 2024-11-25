@@ -11,7 +11,7 @@ document.getElementById('ventaForm').addEventListener('submit', function(event) 
         total: total
     };
 
-    fetch('http://localhost/ventas/api/ventas.php', {
+    fetch('http://localhost/Arqui_Software_2P/ventas/api/ventas.php', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
