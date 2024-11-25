@@ -3,7 +3,7 @@ document.getElementById('producto_id').addEventListener('input', function () {
     const producto_id = this.value;
 
     if (producto_id) {
-        fetch(`http://localhost/Arqui_Software_2P/ventas/api/productos.php?id=${producto_id}`)
+        fetch(`http://localhost:8081/api/productos.php?id=${producto_id}`) // Cambiar a la ruta del microservicio de Ventas
             .then(response => response.json())
             .then(data => {
                 if (data.error) {
@@ -16,6 +16,7 @@ document.getElementById('producto_id').addEventListener('input', function () {
             })
             .catch(error => {
                 console.error('Error al obtener el producto:', error);
+                Swal.fire('Error', 'No se pudo conectar con el servidor', 'error');
                 limpiarCamposProducto();
             });
     } else {
@@ -64,7 +65,7 @@ document.getElementById('ventaForm').addEventListener('submit', function (event)
         cancelButtonText: 'Cancelar'
     }).then((result) => {
         if (result.isConfirmed) {
-            fetch('http://localhost/Arqui_Software_2P/ventas/api/ventas.php', {
+            fetch('http://localhost:8081/api/ventas.php', { // Cambiar a la ruta del microservicio de Ventas
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -82,7 +83,7 @@ document.getElementById('ventaForm').addEventListener('submit', function (event)
                 })
                 .catch(error => {
                     console.error('Error:', error);
-                    Swal.fire('Error', 'Ocurrió un error al registrar la venta', 'error');
+                    Swal.fire('Error', 'No se pudo conectar con el servidor', 'error');
                 });
         }
     });

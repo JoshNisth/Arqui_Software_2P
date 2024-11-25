@@ -1,6 +1,11 @@
 <?php
 include("../db/conexion.php");
 
+// Permitir solicitudes desde otros orígenes (para evitar problemas de CORS)
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
+header("Access-Control-Allow-Headers: Content-Type, Authorization");
+
 // Obtener todos los productos (GET)
 if ($_SERVER['REQUEST_METHOD'] == 'GET') {
     $stmt = $conn->prepare("SELECT * FROM productos");
@@ -31,9 +36,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         'stock' => $stock
     ]);
 
-    // Realizar la llamada cURL a la API de Ventas para agregar el producto
+    // Realizar la llamada cURL al microservicio de Ventas para agregar el producto
     $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, 'http://localhost/Arqui_Software_2P/ventas/api/productos.php'); // URL de la API de Ventas
+    curl_setopt($ch, CURLOPT_URL, 'http://localhost:8081/api/productos.php'); // Actualizada para puerto 8081 (Ventas)
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
     curl_setopt($ch, CURLOPT_POSTFIELDS, $productoData);
@@ -41,9 +46,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         'Content-Type: application/json',
     ));
     $response = curl_exec($ch);
-    curl_close($ch);
 
-    echo json_encode(["message" => "Producto creado exitosamente en Inventario y agregado a Ventas"]);
+    if (curl_errno($ch)) {
+        echo json_encode(["error" => "Error en cURL: " . curl_error($ch)]);
+    } else {
+        echo json_encode(["message" => "Producto creado exitosamente en Inventario y agregado a Ventas"]);
+    }
+
+    curl_close($ch);
 }
 
 // Actualizar un producto (PUT)
@@ -62,9 +72,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'PUT') {
         'cantidad' => $stock
     ]);
 
-    // Realizar la llamada cURL a la API de Ventas para actualizar la cantidad
     $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, 'http://localhost/Arqui_Software_2P/ventas/api/productos.php'); // URL de la API de Ventas
+    curl_setopt($ch, CURLOPT_URL, 'http://localhost:8081/api/productos.php'); // Actualizada para puerto 8081 (Ventas)
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PUT');
     curl_setopt($ch, CURLOPT_POSTFIELDS, $productoData);
@@ -72,8 +81,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'PUT') {
         'Content-Type: application/json',
     ));
     $response = curl_exec($ch);
-    curl_close($ch);
 
-    echo json_encode(["message" => "Producto actualizado en Inventario y ventas"]);
+    if (curl_errno($ch)) {
+        echo json_encode(["error" => "Error en cURL: " . curl_error($ch)]);
+    } else {
+        echo json_encode(["message" => "Producto actualizado en Inventario y Ventas"]);
+    }
+
+    curl_close($ch);
 }
 ?>
