@@ -1,30 +1,25 @@
-document.getElementById('ventaForm').addEventListener('submit', function(event) {
-    event.preventDefault();
+function registrarVenta() {
+    const productoId = parseInt(document.getElementById('producto_id').value);
+    const cantidad = parseInt(document.getElementById('cantidad').value);
 
-    const producto_id = document.getElementById('producto_id').value;
-    const cantidad = document.getElementById('cantidad').value;
-    const total = document.getElementById('total').value;
+    if (!productoId || !cantidad || cantidad <= 0) {
+        alert("Datos inválidos. Verifique el producto y la cantidad.");
+        return;
+    }
 
-    const venta = {
-        producto_id: producto_id,
-        cantidad: cantidad,
-        total: total
-    };
-
-    fetch('http://localhost/ventas/api/ventas.php', {
+    fetch('http://localhost/Arqui_Software_2P/ventas/api/ventas.php', {
         method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(venta)
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ producto_id: productoId, cantidad: cantidad })
     })
-    .then(response => response.json())
-    .then(data => {
-        if (data.message) {
-            alert(data.message);
-        } else if (data.error) {
-            alert('Error: ' + data.error);
-        }
-    })
-    .catch(error => console.error('Error:', error));
-});
+        .then(response => response.json())
+        .then(data => {
+            if (data.error) {
+                alert("Error: " + data.error);
+            } else {
+                alert(data.message);
+                cargarProductos(); // Actualizar la lista de productos
+            }
+        })
+        .catch(error => console.error('Error al registrar la venta:', error));
+}
