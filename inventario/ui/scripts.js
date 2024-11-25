@@ -12,7 +12,7 @@ function agregarProducto() {
     // Validar que los campos no estén vacíos
     if (nombre && precio && stock) {
         // Enviar el producto al backend para guardarlo en la base de datos
-        fetch('http://localhost/Arqui_Software_2P/inventario/api/productos.php', {
+        fetch('http://localhost:8080/api/productos.php', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ nombre, precio, stock })
@@ -33,7 +33,7 @@ function agregarProducto() {
 
 // Función para cargar los productos en la tabla
 function cargarProductos() {
-    fetch('http://localhost/Arqui_Software_2P/inventario/api/productos.php')
+    fetch('http://localhost:8080/api/productos.php')
         .then(response => response.json())
         .then(data => {
             const tableBody = document.querySelector('#productos tbody');
